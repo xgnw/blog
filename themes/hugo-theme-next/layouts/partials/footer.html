@@ -1,0 +1,60 @@
+{{ $ft := .Site.Params.footer }}
+{{ if $ft.translate }}
+<div id="gtranslate" class="google-translate">
+  <i class="fa fa-language"></i>
+  <div id="google_translate_element"></div>
+</div>
+{{ end }}
+<div class="copyright">
+  &copy;
+  <span itemprop="copyrightYear">
+    {{ $year := now.Year }}
+    {{ if isset $ft "since" }}
+    {{ if gt $year $ft.since }}
+    {{ $ft.since }} - {{ $year }}
+    {{ else }}
+    {{ $year }}
+    {{ end }}
+    {{ else }}
+    {{ $year }}
+    {{ end }}
+  </span>
+  <span class="with-love">
+    <i class="{{ $ft.icon.name }}"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">{{ $ft.copyright | default .Site.Params.author }}</span>
+</div>
+{{ if $ft.powered }}
+<div class="powered-by">
+  {{ $pb := printf "<a href='https://gohugo.io' title='%s' target='_blank'>Hugo</a> &amp; <a href='https://github.com/hugo-next/hugo-theme-next' title='%s' target='_blank'>Hugo NexT.%s</a>" hugo.Version .Site.Data.config.version .Site.Params.scheme }}
+  {{ printf (T "Footer.powerby") $pb | safeHTML }}
+</div>
+{{ end }}
+{{ with $ft.beian }}
+{{ if .enable }}
+<div class="beian">
+  <a href="https://icp.gov.moe/?keyword=20238876" target="_blank">{{ .icp }}</a>
+  <script charset="UTF-8" id="LA_COLLECT" src="//sdk.51.la/js-sdk-pro.min.js?id=CI2hBTi7jZXBxEp6&ck=CI2hBTi7jZXBxEp6"></script></div>
+{{ end }}
+{{ end }}
+{{ with $ft.vendors }}
+{{ if .enable }}
+<div class="vendors-list">
+  {{ range .list }}
+    <a target="_blank" href="{{ .link }}" title="{{ .name }}">
+      {{ if .image }}        
+        <img src="/imgs/img-lazy-loading.gif" data-src="{{ .image.url }}" alt="{{ .name }}" />
+      {{ else }}
+        {{ .name }}
+      {{ end }}
+    </a>
+  {{ end }}
+   <span>{{ .title }}</span>
+</div>
+{{ end }} 
+{{ end }}
+
+{{ $custom := .Scratch.Get "footer" }}
+{{ if $custom }}
+  {{ partialCached $custom . }}
+{{ end }}

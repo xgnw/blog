@@ -1,0 +1,34 @@
+{{ define "title" }}{{ .Title }} - {{ .Site.Title }}{{ end }}
+
+{{ define "main_inner_class" }}nav posts-expand{{ end }}
+
+{{ define "main" }}
+
+<div class="nav-block">
+<h1 class="nav-block-title">{{ .Title }}</h1>
+<div class="nav-lists">
+  {{ range .Site.Data.nav }}
+  <div class="nav-list">
+    <div class="nav-list-title">{{ .navTitle | safeHTML }}</div>
+    <div class="nav-list-desc">{{ .navDesc | safeHTML }}</div>
+    <div class="nav-list-items">
+    {{ range .navList }}
+    <div class="nav-list-item">
+      <a href="{{ .link }}" rel="external nofollow noreferrer" title=" {{ .name }}" target="_blank">
+        <div class="nav-item-icon">
+          <img class="no-lightbox entered loaded" src="{{ .avatar }}" alt="{{ .name }}"/>
+        </div>
+        <div class="nav-item-name">{{ .name  | safeHTML }}</div>
+        <div class="nav-item-desc" title="{{ .desc }}">{{ .desc | safeHTML }}</div>
+      </a>
+    </div>
+    {{ end }}
+  </div>
+  </div>
+  {{ end }}
+</div>
+<div class="nav-list-footer"><hr/></div>
+<div class="nav-page-desc">{{ .Content }}</div>
+</div>
+
+{{ end }}
